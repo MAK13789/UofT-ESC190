@@ -75,7 +75,7 @@ int find_cycle(struct node *head)
     struct node *hare = head->next->next;
     while (tortoise != hare)
     {
-        if (tortoise->next == NULL || hare->next->next == NULL)   //maybe hare and tortoise should be swappad here
+        if (hare->next == NULL || tortoise->next->next == NULL)   //maybe hare and tortoise should be swappad here
         {
             break;
         }
@@ -111,4 +111,16 @@ int main()
     int int_string = new_atoi(string);
     printf("%d\n", int_string);
     //for some reason it messes up the last digit and doesn't work properly if there are more than 3 non digits or if the string is long
+    //testing problem 4:
+    struct node *node0 = (struct node *)malloc(sizeof(struct node));
+    node0->num = 3;
+    struct node *node1 = (struct node *)malloc(sizeof(struct node));
+    node0->next = node1;
+    node1->num = 4;
+    struct node *node2 = (struct node *)malloc(sizeof(struct node));
+    node1->next = node2;
+    node2->num = 5;
+    node2->next = node1;   //no cycle if its NULL, and there is a cycle if its another node
+    int x = find_cycle(node0);
+    printf("%d\n", x);
 }
