@@ -75,7 +75,7 @@ int find_cycle(struct node *head)
     struct node *hare = head->next->next;
     while (tortoise != hare)
     {
-        if (hare->next == NULL || tortoise->next->next == NULL)   //maybe hare and tortoise should be swappad here
+        if (hare->next == NULL || tortoise->next->next == NULL)   
         {
             break;
         }
