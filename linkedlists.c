@@ -24,11 +24,15 @@ void delete(struct node *head, int position)
     struct node *temp = cur->next->next;
     cur->next = temp;
 }
-void free_linked_list(struct node *head)
+void free_linked_list(struct node **head)
 {
-    struct node *cur = head;
-    cur->next = NULL;
-    free(cur);
+    struct node *cur_node = *head;
+    while (*head != NULL)
+    {
+        *head = (*head)->next;
+        free(cur_node);
+        cur_node = *head;
+    }
 }
 void print_linked_list(struct node *head)
 {

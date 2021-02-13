@@ -20,5 +20,6 @@ int main()
     print_linked_list(head);
     delete(head, 2);
     print_linked_list(head);
-    free_linked_list(head);
+    free_linked_list(&head);
+    print_linked_list(head);  //nothing prints, meaning it has been freed
 }
