@@ -128,12 +128,12 @@ def make_data(max_nodes):
     return n (a list of values of n_nodes) and h (a list of heights)
 
     '''
-    N_TREES = 25
+    N_TREES = 40
     n_nodes = 5
     i = 1
     n = []
     h = []
-    for i in range(N_TREES):
+    for i in tqdm(range(N_TREES), ncols=100):
         num_nodes = int(n_nodes * (1.2 ** (i)))
         n.append(num_nodes)
         height = height_random_tree(num_nodes)
