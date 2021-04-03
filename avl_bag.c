@@ -593,7 +593,7 @@ void bag_print(const bag_t *bag, int indent, void (*print)(bag_elem_t))
 
 
 
-
+/*
 bool is_avl_tree(bag_t *bag)
 {
     if (bag->size == 0)
@@ -627,32 +627,61 @@ bool is_avl_tree(bag_t *bag)
         }
     }
 }
+*/
+bool helper(avl_node_t *n)
+{
+    if (n == NULL)
+    {
+        return true;
+    }
+    else if (((HEIGHT(n->left)-HEIGHT(n->right) <= 1) || (HEIGHT(n->left)-HEIGHT(n->right) >= -1)) && (helper(n->left)) && (helper(n->right)))
+    {
+        return true;
+    }
+    return false;
+}    
 int float_cmp(bag_elem_t a, bag_elem_t b)
 {
     return *(float *) a < *(float *) b ? -1
          : *(float *) a > *(float *) b; /* ? 1 : 0 would be redundant */
 }
-bool bag_insert_norot(avl_node_t **root, bag_elem_t elem,
-                int (*cmp)(bag_elem_t, bag_elem_t))
+bool is_avl_tree(bag_t *bag)
+{
+    return helper(bag->root);
+}
+
+
+
+
+bool norot_insert(avl_node_t **root, bag_elem_t elem,
+                  int (*cmp)(bag_elem_t, bag_elem_t))
 {
     bool inserted;
 
     if (! *root) {
         inserted = (*root = avl_node_create(elem));
-    } else if ((*cmp)(elem, (*root)->elem) < 0) {
-        if ((inserted = avl_insert(&(*root)->left, elem, cmp))) {
-            avl_update_height(*root);
-        }
-    } else if ((*cmp)(elem, (*root)->elem) > 0) {
-        if ((inserted = avl_insert(&(*root)->right, elem, cmp))) {
-            avl_update_height(*root);
-        }
-    } else { 
-        inserted = avl_insert(&(*root)->left, elem, cmp);
-        if (inserted)  avl_update_height(*root);
+    }
+    else if ((*cmp)(elem, (*root)->elem) < 0) {
+        inserted = norot_insert(&(*root)->left, elem, cmp);
+    }
+    else if ((*cmp)(elem, (*root)->elem) >= 0) {
+        inserted = norot_insert(&(*root)->right, elem, cmp);
     }
 
     return inserted;
+}
+
+bool bag_insert_norot(bag_t *bag, bag_elem_t elem)
+{
+    if (norot_insert(&bag->root, elem, bag->cmp) == true) {
+        bag->size++;
+        printf("PASSED FOR B2\n");
+        return true;
+    }
+    else {
+        printf("FAILED FOR B2\n");
+        return false;
+    }
 }
 int main()
 {
@@ -662,7 +691,7 @@ int main()
     for (int i = 0; i < 9; i++)
     {
         bag_insert(b_avl, &a[i]);
-        bag_insert_norot(&(b_bst->root), &a[i], float_cmp);
+        bag_insert_norot(&(b_bst->root), &a[i]);
     }
     /*
     if (is_avl_tree(b_avl))
@@ -670,8 +699,22 @@ int main()
         printf("b_avl is an avl tree");
     }
     */
-    printf("debugging\n");
+    //printf("debugging\n");
     bool result = is_avl_tree(b_avl);
-    printf("debugging\n");    //doesn't get to this line????
-    printf("%d\n", result);
+    bool result_2 = is_avl_tree(b_bst);
+    if (is_avl_tree(b_avl))
+    {
+        printf("b_avl is in fact an avl tree\n");
+    }
+
+
+    if (is_avl_tree(b_bst))
+    {
+        printf("b_bst is an avl tree??\n");
+    }
+    else
+    {
+        printf("b_bst is not an avl tree");
+    }
+    //printf("debugging\n");    //doesn't get to this line????
 }
