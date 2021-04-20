@@ -1,62 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
-int my_strncmp (char *str1, char *str2, int num)
+#include <string.h>
+int hash_function(char *str, int table_size)
 {
-    if (num == 0)
+    int output = 0;
+    for (int i = 0; i < strlen(str); i ++)
     {
-        if (str1[0] < str2[0])
+        output += (int)str[i];
+    }
+    return output % table_size;
+}
+char **hash(char **strs, int strs_sz)
+{
+    //printf("debug\n");
+    char **hashtable = (char **)malloc(strs_sz * sizeof(char *));
+    for (int k = 0; k < strs_sz; k++)
+    {
+        hashtable[k] = (char *)malloc((strlen(strs[k]) + 1) * sizeof(char));
+    }
+    for (int j = 0; j < strs_sz; j++)
+    {
+        hashtable[j] = "";
+    }
+    for (int i = 0; i < strs_sz; i ++)
+    {
+        int index = hash_function(strs[i], strs_sz);
+        if (hashtable[index] == "")
         {
-            return -1;
+            hashtable[index] = strs[i];
         }
-        else if (str1[0] > str2[0])
+        else
         {
-            return 1;
-        }
-        else if (str1[0] == str2[0])
-        {
-            return 0;
+            while (hashtable[index] != "")
+            {
+                index ++;
+            }
+            hashtable[index] = strs[i];
         }
     }
-    //what if the string terminaates
-    if (str1[0] < str2[0])
+    return hashtable;
+}
+int repeats(char **strs, int strs_sz)
+{
+    char **hashtable = hash(strs, strs_sz);
+    for (int i = 0; i < strs_sz; i ++)
     {
-        return -1;
+        if (hashtable[i] != "")
+        {
+            int j = i+1;
+            while (hashtable[j] == "")
+            {
+                j ++;
+            }
+            if (strcmp(hashtable[i], hashtable[j]) != 0)
+            {
+                return 1;
+            }
+        }
     }
-    else if (str1[0] > str2[0])
-    {
-        return 1;
-    }
-    else
-    {
-        int length1 = 0;
-        while (str1[length1] != '\0')
-        {
-            length1++;
-        }
-        char str1new[length1]; //will this already have the '\0'??
-        for (int i = 1; i < length1; i++)
-        {
-            str1new[i-1] = str1[i];
-        }
-
-
-        int length2 = 0;
-        while (str2[length2] != '\0')
-        {
-            length2++;
-        }
-        char str2new[length2]; //will this already have the '\0'??
-        for (int j = 1; j < length2; j++)
-        {
-            str2new[j-1] = str2[j];
-        }
-        return my_strncmp((char *)&str1new, (char *)&str2new, num-1); 
-    }
+    return 0;
 }
 /*
-int main()
-{
-    int test = my_strncmp("ESC180", "ESC190", 3);
-    printf("%d", test);
-}
+This function is O(n) because it only loops through the size of the string array, and the only time there is a nested loop is when dealing with the hash table. However, due to the nature
+of a hash table, this still takes O(n) time on average. For example, on average it doesn't need to loop through the whole hash table to find an empty spot given an occupied spot
+, rather just a small portion of the table
+of the hash table.
+*/
+/*
+int main(void){
+	
+    char *strs1[] = {"ESC", "MAT", "MSE", "CIV"};
+	printf("%d\n", repeats(strs1, 4)); // 0
+	char *strs2[] = {"ESC", "MAT", "MSE", "CIV", "ESC"};
+	printf("%d\n", repeats(strs2, 5)); // 1
+	return 0;
+    //printf("%d\n", hash_function("CIV", 4)); this function works
 */
