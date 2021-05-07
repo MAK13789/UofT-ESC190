@@ -11,7 +11,7 @@ def min_dist(u1, u2, u3):
         v.append(random.uniform(-1, 1))
     v = np.asarray(v, dtype='float64')
     epsilon = 0.01
-    alpha = 0.001
+    alpha = 0.000000001
     print (v)
     while cost(v, u1, u2, u3) > epsilon:
         v -= alpha * np.gradient(v)
@@ -34,10 +34,9 @@ for i in range(5):
     u3.append(random.uniform(-5, 5))
 v = [0] * 5
 og_cost = cost(v, u1, u2, u3)
-'''
+
 print (og_cost)
 v = min_dist(u1, u2, u3)
 new_cost = cost(v, u1, u2, u3)
 print (v)
 print (new_cost)
-'''

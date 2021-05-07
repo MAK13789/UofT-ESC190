@@ -42,6 +42,7 @@ int my_strcmp_rec(char *str1, char *str2)
     }
 }
 //Problem 3:
+/*
 int new_atoi(char *str)
 {
     int str_len = 0;
@@ -62,6 +63,17 @@ int new_atoi(char *str)
     }
     return output;
 }
+*/
+int new_atoi(char *str)
+{
+    int output = 0;
+    while (*str)
+    {
+        output = output*10 + (*str - '0');
+    }
+    return output;
+}
+/*
 //Problem 4:
 struct node
 {
@@ -94,6 +106,28 @@ int find_cycle(struct node *head)
     }
     return 1;
 }
+*/
+// Problem 4
+struct node{
+    int data; 
+    struct node *next; 
+};
+int floyd(struct node *head) {
+    struct node *tortoise = head;
+    struct node *hare = head->next;
+
+    while(tortoise != hare && tortoise != NULL && hare->next != NULL
+    && hare->next->next != NULL){
+        // iterate at different speeds
+        tortoise = tortoise->next;
+        hare = hare->next->next;
+    }
+    if(hare->next == NULL || tortoise == NULL || hare->next->next == NULL){
+        return 0;
+    }
+    return 1;
+}
+
 int main()
 {
     //testing problem 1:

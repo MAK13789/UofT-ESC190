@@ -57,8 +57,6 @@ struct Node{
 struct Node *mergeLinkedLists(struct Node *L1, struct Node *L2)
 {
     new->next = NULL;
-    
-    
     int length1 = 0;
     struct Node *temp1 = L1;
     while (temp1->next != NULL)
@@ -66,9 +64,8 @@ struct Node *mergeLinkedLists(struct Node *L1, struct Node *L2)
         length1 ++;
         temp1 = temp1->next;
     }
-    //length will be in terms of indexing basically
     int length2 = 0;
-    struct Node *temp2 - L2;
+    struct Node *temp2 = L2;
     while (temp2->next != NULL)
     {
         length2 ++;

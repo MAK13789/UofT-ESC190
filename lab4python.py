@@ -15,12 +15,12 @@ def find_highest(L, e):
     if e > L[len(L)-1] or e < L[0]:
         return -1
     if L[len(L)//2] < e:
-        return len(L)//2 + find_highest(L[len(L)//2:], e)   
+        return len(L)//2 + find_lowest(L[len(L)//2:], e)   
     if L[len(L)//2] > e:
-        return find_highest(L[:len(L)//2], e)
+        return find_lowest(L[:len(L)//2], e)
     if L[len(L)//2] == e:
-        if find_highest(L[len(L)//2 + 1:], e) != -1:
-            return find_highest(L[len(L)//2 + 1:], e)
+        if find_lowest(L[len(L)//2 + 1:], e) != -1:
+            return find_lowest(L[len(L)//2 + 1:], e)
         else:
             return len(L)//2
     return -1    

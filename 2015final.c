@@ -18,6 +18,7 @@ int is_sorted(struct node *l1)
         l1 = l1->next;
     }
     return 1;
+/*
 void bubbleSort(struct Node **l1)
 {
     if (is_sorted(*l1) == 1)
@@ -50,6 +51,45 @@ void bubbleSort(struct Node **l1)
         }
         bubbleSort(l1);
     }
+}
+*/
+void bubbleSort(struct Node** l1)
+{
+    int len = 0;
+    int counter = 0;
+    int iter = 0;
+
+    while ((*l1)->next != NULL)
+    {
+        len++;
+    }
+    struct Node* cur = (struct Node*)malloc(sizeof(struct Node));
+
+    while (iter < len)
+    {
+        cur = *l1;
+        while (counter < len - iter)
+        {
+            if ((cur)->data > (cur)->next->data)
+            {
+                struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+                *temp = *cur;
+                cur = cur->next;
+                cur->next = temp;
+                counter++;
+            }
+            if (counter == len - iter)
+            {
+                iter++;
+            }
+            else if (cur->next != NULL)
+            {
+                cur = cur->next;
+            }
+
+        }
+    }
+
 }
 struct Node{
     int height;

@@ -11,7 +11,7 @@ def write_image(image, filename):
     img_raster = []
     for i in range(height):
         for j in range(width):
-            img_raster.extend(image.getpixel((j, i)))
+            img_raster.extend(image.getpixel((j, i))[:3])
 
     f.write(bytearray(img_raster))
     f.close()
@@ -46,18 +46,8 @@ im2 = read_image("a.bin")
 im3 = read_image("6x5_grad.bin")
 im3.save("grad.png")
 
-
+'''
 # Write multiple images from bin to png
-for i in range(200):
+for i in range(20):
     image = read_image("img%d.bin" % i)
     image.save("img%d.png" % i)
-'''
-#image = Image.open("mericgertler.jpg")
-#write_image(image, "mericgertler.bin")
-i = 1
-while (i <= 5):
-    filename = "f" + str(i) + ".bin"
-    image = read_image(filename)
-    new_filename = "f" + str(i) + ".png"
-    image.save(new_filename)
-    i += 1

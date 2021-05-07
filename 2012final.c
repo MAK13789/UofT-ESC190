@@ -29,7 +29,7 @@ int main()
     char *new_str = join(3, strs, "; ");
     printf("%s\n", new_str);
 }
-*/
+/*
 //Question 3:
 typedef struct list_node {
     long value;

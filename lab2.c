@@ -56,7 +56,7 @@ struct node
     void *p_data; //a pointer to data (allocated with malloc)
     int type; //0 if int, 1 if float, 2 if double
     struct node *next;
-}
+};
 void append_int(struct node *head, int *value)
 {
     struct node *cur = head;
